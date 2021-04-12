@@ -12,5 +12,6 @@ export const ROUTS = {
         index: "/books",
         create: "/create",
         getNew: "/get_new",
+        joinInBook: "/join_in_book",
     }
 };

@@ -17,7 +17,8 @@ var ROUTS = {
   BOOKS: {
     index: "/books",
     create: "/create",
-    getNew: "/get_new"
+    getNew: "/get_new",
+    joinInBook: "/join_in_book"
   }
 };
 exports.ROUTS = ROUTS;
