@@ -7,7 +7,7 @@ const debug = debugLib('folkbook:server');
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '9000');
+var port = normalizePort(process.env.PORT || '19180');
 app.set('port', port);
 
 /**

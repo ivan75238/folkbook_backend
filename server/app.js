@@ -82,7 +82,7 @@ passport.authenticationMiddleware = authenticationMiddleware;
 
 app.use(cookieParser());
 
-var whitelist = ['http://127.0.0.1:8000', 'http://127.0.0.1:8080']; //white list consumers
+var whitelist = ['http://127.0.0.1:8000', 'http://127.0.0.1:8080', 'https://www.folkbook.ru', 'https://folkbook.ru']; //white list consumers
 var corsOptions = {
     origin: function (origin, callback) {
         if (whitelist.indexOf(origin) !== -1) {
