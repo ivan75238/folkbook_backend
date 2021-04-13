@@ -20,7 +20,7 @@ import "core-js/stable";
 import "regenerator-runtime/runtime";
 
 const app = express();
-const client = redis.createClient();
+const client = redis.createClient({"password": "ujujkm123"});
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

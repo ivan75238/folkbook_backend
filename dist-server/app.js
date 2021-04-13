@@ -39,14 +39,16 @@ var redis = require('redis');
 
 var passport = require('passport');
 
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcryptjs');
 
 var LocalStrategy = require('passport-local').Strategy;
 
 var cors = require('cors');
 
 var app = express();
-var client = redis.createClient();
+var client = redis.createClient({
+  "password": "ujujkm123"
+});
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
   extended: true
@@ -100,7 +102,7 @@ passport.deserializeUser(function (username, done) {
 });
 passport.authenticationMiddleware = _midlleware.authenticationMiddleware;
 app.use(cookieParser());
-var whitelist = ['http://127.0.0.1:8000', 'http://127.0.0.1:8080']; //white list consumers
+var whitelist = ['http://127.0.0.1:8000', 'http://127.0.0.1:8080', 'https://www.folkbook.ru', 'https://folkbook.ru']; //white list consumers
 
 var corsOptions = {
   origin: function origin(_origin, callback) {
