@@ -13,7 +13,7 @@ const session = require('express-session');
 const RedisStorage = require('connect-redis')(session);
 const redis = require('redis');
 const passport = require('passport');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const LocalStrategy = require('passport-local').Strategy;
 const cors = require('cors');
 import "core-js/stable";
