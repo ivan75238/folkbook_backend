@@ -60,5 +60,5 @@ var createChapter = function createChapter(id_book, mysql) {
 };
 
 var createSection = function createSection(req, id_chapter, mysql) {
-  return mysql.query("\n        INSERT INTO `sections` (`id_chapter`, `number`, `finished_at`) \n        VALUES ('".concat(id_chapter, "', '1', '").concat((0, _moment["default"])(req.body.started_at).add(2, "days").format("YYYY-MM-DD HH:mm"), "');\n    "));
+  return mysql.query("\n        INSERT INTO `sections` (`id_chapter`, `number`, `finished_at`, `vote_finished_at`) \n        VALUES ('".concat(id_chapter, "', '1',\n         '").concat((0, _moment["default"])(req.body.started_at).add(2, "days").format("YYYY-MM-DD HH:mm"), "',\n         '").concat((0, _moment["default"])(req.body.started_at).add(4, "days").format("YYYY-MM-DD HH:mm"), "'\n         );\n    "));
 };

@@ -47,7 +47,10 @@ const createChapter = (id_book, mysql) => {
 
 const createSection = (req, id_chapter, mysql) => {
     return mysql.query(`
-        INSERT INTO \`sections\` (\`id_chapter\`, \`number\`, \`finished_at\`) 
-        VALUES ('${id_chapter}', '1', '${moment(req.body.started_at).add(2, "days").format("YYYY-MM-DD HH:mm")}');
+        INSERT INTO \`sections\` (\`id_chapter\`, \`number\`, \`finished_at\`, \`vote_finished_at\`) 
+        VALUES ('${id_chapter}', '1',
+         '${moment(req.body.started_at).add(2, "days").format("YYYY-MM-DD HH:mm")}',
+         '${moment(req.body.started_at).add(4, "days").format("YYYY-MM-DD HH:mm")}'
+         );
     `);
 };

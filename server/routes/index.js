@@ -6,7 +6,8 @@ export const ROUTS = {
         index: "/user",
         main: "/",
         login: "/login",
-        logout: "/logout"
+        logout: "/logout",
+        getActiveBooks: "/get_active_books",
     },
     BOOKS: {
         index: "/books",

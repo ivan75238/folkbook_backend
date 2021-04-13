@@ -45,7 +45,7 @@ var getNewBook = /*#__PURE__*/function () {
             books = [];
             mysql = new _mysql["default"]();
             mysqlPoll = new _mysqlPool["default"]();
-            mysql.query("SELECT \n        `books`.`id`, \n        `books`.`name`, \n        `books`.`age_rating`, \n        `books`.`max_participants`, \n        `books`.`started_at`, \n        `books`.`status`, \n        COUNT(*) AS `chapter_count` \n    FROM \n        `books` INNER JOIN `chapters` ON `books`.`id` = `chapters`.`id_book`\n    WHERE \n        `books`.`started_at` > CURDATE() \n    GROUP BY \n        `chapters`.`id_book`\n    ").then( /*#__PURE__*/function () {
+            mysql.query("SELECT \n        `books`.`id`, \n        `books`.`name`, \n        `books`.`age_rating`, \n        `books`.`max_participants`, \n        `books`.`started_at`, \n        `books`.`status`, \n        COUNT(*) AS `chapter_count` \n    FROM \n        `books` INNER JOIN `chapters` ON `books`.`id` = `chapters`.`id_book`\n    WHERE \n        `books`.`started_at` > NOW() \n    GROUP BY \n        `chapters`.`id_book`\n    ").then( /*#__PURE__*/function () {
               var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(results) {
                 var resultGenres, resultParticipants;
                 return regeneratorRuntime.wrap(function _callee$(_context) {

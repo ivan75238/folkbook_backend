@@ -5,7 +5,7 @@ import MySQLPool from "../../mysqlPool";
 import _orderBy from 'lodash/orderBy';
 import moment from 'moment';
 
-export const getNewBook = async (req, res) => {
+export const getActiveBook = async (req, res) => {
     let books = [];
     const mysql = new MySQL();
     const mysqlPoll = new MySQLPool();
@@ -15,12 +15,16 @@ export const getNewBook = async (req, res) => {
         \`books\`.\`age_rating\`, 
         \`books\`.\`max_participants\`, 
         \`books\`.\`started_at\`, 
-        \`books\`.\`status\`, 
-        COUNT(*) AS \`chapter_count\` 
+        \`books\`.\`status\`,
+        COUNT(*) AS \`chapter_count\`,
+        max(\`chapters\`.\`number\`) AS \`last_chapter_number\`,
+        max(\`chapters\`.\`id\`) AS \`last_chapter_id\`
     FROM 
-        \`books\` INNER JOIN \`chapters\` ON \`books\`.\`id\` = \`chapters\`.\`id_book\`
+        \`participants_in_book\` INNER JOIN \`books\` ON \`books\`.\`id\` = \`participants_in_book\`.\`id_book\`
+        INNER JOIN \`chapters\` ON \`books\`.\`id\` = \`chapters\`.\`id_book\`
     WHERE 
-        \`books\`.\`started_at\` > NOW() 
+        \`participants_in_book\`.\`id_user\` = '${req.user.id}' AND 
+        \`books\`.\`status\` = 'in_work'
     GROUP BY 
         \`chapters\`.\`id_book\`
     `)
@@ -51,6 +55,21 @@ export const getNewBook = async (req, res) => {
                     const index = books.findIndex(i => i.id === rows[0].id_book);
                     if (index > -1) {
                         books[index].participants = rows.map(p => p.id_user);
+                    }
+                }
+            });
+            const resultSections = await Promise.all(
+                books.map(book => mysqlPoll.query(`
+                    SELECT \`sections\`.* 
+                    FROM \`sections\` INNER JOIN \`chapters\` ON \`sections\`.\`id_chapter\` = \`chapters\`.\`id\` 
+                    WHERE \`chapters\`.\`id\` = '${book.last_chapter_id}';`
+                ))
+            );
+            resultSections.forEach(([rows]) => {
+                if (rows.length) {
+                    const index = books.findIndex(i => i.last_chapter_id === rows[0].id_chapter);
+                    if (index > -1) {
+                        books[index].last_section = rows[0];
                     }
                 }
             });

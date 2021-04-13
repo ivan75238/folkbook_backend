@@ -22,6 +22,7 @@
     "prod": "set NODE_ENV=production & npm-run-all build server",
     "transpile": "babel ./server --out-dir dist-server",
     "watch:dev": "nodemon",
+    "watch:prod": "nodemon",
     "clean": "rimraf dist-server"
   },
   "babel": {

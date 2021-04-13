@@ -2,13 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cbeb1759-4abe-41a3-b67c-d4ffafb0aad7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/class/Books/functions/joinInBook.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/class/Users/functions/getActiveBook.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dist-server/routes/books.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist-server/routes/books.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist-server/class/Books/functions/create.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist-server/class/Books/functions/create.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist-server/class/Books/functions/getNewBook.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist-server/class/Books/functions/getNewBook.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dist-server/routes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist-server/routes/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/routes/books.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routes/books.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dist-server/routes/users.js" beforeDir="false" afterPath="$PROJECT_DIR$/dist-server/routes/users.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/class/Books/functions/create.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/class/Books/functions/create.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/class/Books/functions/getNewBook.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/class/Books/functions/getNewBook.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/routes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routes/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/routes/users.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/routes/users.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -33,6 +36,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -49,6 +53,7 @@
       <recent name="D:\folkbook\backend" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\folkbook\backend\server\class\Users\functions" />
       <recent name="D:\folkbook\backend\server" />
       <recent name="D:\folkbook\backend" />
     </key>
@@ -85,17 +90,30 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1617607237936</updated>
-      <workItem from="1617607239224" duration="67897000" />
+      <workItem from="1617607239224" duration="78722000" />
     </task>
+    <task id="LOCAL-00001" summary="- сделан метод записи на книгу">
+      <created>1618207282447</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1618207282447</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="- сделан метод записи на книгу" />
+    <option name="LAST_COMMIT_MESSAGE" value="- сделан метод записи на книгу" />
+  </component>
   <component name="WindowStateProjectService">
-    <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1617631271256">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="-1506" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1618305382830">
+      <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
+    <state x="-1506" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040/-1920.0.1920.1040/1920.0.1920.1040@-1920.0.1920.1040" timestamp="1618305382830" />
     <state x="414" y="175" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040/-1920.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1617631271256" />
     <state x="690" y="267" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1617761404777">
       <screen x="0" y="0" width="1920" height="1040" />
@@ -105,39 +123,47 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="675" y="218" key="#watch:dev/0.0.1920.1040/-1920.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1617631277810" />
+    <state x="585" y="114" key="CommitChangelistDialog2" timestamp="1618207281896">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="585" y="114" key="CommitChangelistDialog2/0.0.1920.1040/-1920.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1618207281896" />
     <state x="740" y="275" key="FileChooserDialogImpl" timestamp="1617630060381">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040/-1920.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1617630060381" />
-    <state width="1877" height="196" key="GridCell.Tab.0.bottom" timestamp="1618206775011">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1877" height="239" key="GridCell.Tab.0.bottom" timestamp="1618305384896">
+      <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="196" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.0.1920.1040/1920.0.1920.1040@-1920.0.1920.1040" timestamp="1618205552157" />
-    <state width="1877" height="196" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1618206775011" />
-    <state width="1877" height="196" key="GridCell.Tab.0.center" timestamp="1618206775011">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1877" height="239" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.0.1920.1040/1920.0.1920.1040@-1920.0.1920.1040" timestamp="1618305384896" />
+    <state width="1877" height="196" key="GridCell.Tab.0.bottom/0.0.1920.1040/-1920.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1618232804673" />
+    <state width="1877" height="239" key="GridCell.Tab.0.center" timestamp="1618305384896">
+      <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="196" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.0.1920.1040/1920.0.1920.1040@-1920.0.1920.1040" timestamp="1618205552157" />
-    <state width="1877" height="196" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1618206775011" />
-    <state width="1877" height="196" key="GridCell.Tab.0.left" timestamp="1618206775011">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1877" height="239" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.0.1920.1040/1920.0.1920.1040@-1920.0.1920.1040" timestamp="1618305384896" />
+    <state width="1877" height="196" key="GridCell.Tab.0.center/0.0.1920.1040/-1920.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1618232804672" />
+    <state width="1877" height="239" key="GridCell.Tab.0.left" timestamp="1618305384896">
+      <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="196" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.0.1920.1040/1920.0.1920.1040@-1920.0.1920.1040" timestamp="1618205552157" />
-    <state width="1877" height="196" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1618206775011" />
-    <state width="1877" height="196" key="GridCell.Tab.0.right" timestamp="1618206775011">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state width="1877" height="239" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.0.1920.1040/1920.0.1920.1040@-1920.0.1920.1040" timestamp="1618305384896" />
+    <state width="1877" height="196" key="GridCell.Tab.0.left/0.0.1920.1040/-1920.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1618232804672" />
+    <state width="1877" height="239" key="GridCell.Tab.0.right" timestamp="1618305384896">
+      <screen x="-1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="196" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.0.1920.1040/1920.0.1920.1040@-1920.0.1920.1040" timestamp="1618205552157" />
-    <state width="1877" height="196" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1618206775011" />
+    <state width="1877" height="239" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.0.1920.1040/1920.0.1920.1040@-1920.0.1920.1040" timestamp="1618305384896" />
+    <state width="1877" height="196" key="GridCell.Tab.0.right/0.0.1920.1040/-1920.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1618232804673" />
     <state x="461" y="162" key="SettingsEditor" timestamp="1618069002781">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="461" y="162" key="SettingsEditor/0.0.1920.1040/-1920.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1618069002781" />
-    <state x="656" y="252" width="607" height="536" key="find.popup" timestamp="1618140848328">
+    <state x="552" y="241" key="Vcs.Push.Dialog.v2" timestamp="1618207284013">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="552" y="241" key="Vcs.Push.Dialog.v2/0.0.1920.1040/-1920.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1618207284013" />
+    <state x="656" y="252" width="607" height="536" key="find.popup" timestamp="1618218757204">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="-1264" y="252" width="607" height="536" key="find.popup/0.0.1920.1040/-1920.0.1920.1040/1920.0.1920.1040@-1920.0.1920.1040" timestamp="1618067362992" />
-    <state x="656" y="252" width="607" height="536" key="find.popup/0.0.1920.1040/-1920.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1618140848328" />
+    <state x="656" y="252" width="607" height="536" key="find.popup/0.0.1920.1040/-1920.0.1920.1040/1920.0.1920.1040@0.0.1920.1040" timestamp="1618218757204" />
     <state x="616" y="240" key="run.anything.popup" timestamp="1618205729740">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
