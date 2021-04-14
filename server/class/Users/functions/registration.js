@@ -4,7 +4,6 @@ import {HTTPStatus} from "../../HTTPStatus";
 const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
 import {config} from "../../../config";
-const xoauth2 = require('xoauth2');
 
 export const registration = (req, res) => {
     if (!checkParams(req, ["username", "password"])) {
