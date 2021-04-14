@@ -8,6 +8,7 @@ export const ROUTS = {
         login: "/login",
         logout: "/logout",
         registration: "/registration",
+        activate: "/activate",
         getActiveBooks: "/get_active_books",
     },
     BOOKS: {

@@ -35,7 +35,7 @@ export const registration = (req, res) => {
                     let transporter = nodemailer.createTransport({
                         service: 'gmail',
                         auth: {
-                            user: 'help@folkbook.ru',
+                            user: 'folkbook.ru@gmail.com',
                             pass: 'bARSIk75238',
                         },
                     });
@@ -44,9 +44,24 @@ export const registration = (req, res) => {
                         to: req.body.username,
                         subject: 'Подтверждение регистрации',
                         text: 'Тект из поля text',
-                        html: `Ваш <i>ID</i> <strong>${result[0].insertId}</strong>.
-                                <br/> Для активации акаунта перейдите по <a>ссылке</a>`,
+                        html: `Благодарим вас за регистрацию на folkbook.ru.
+                                <br/> Для активации акаунта перейдите по 
+                                <a href="https://api.folkbook.ru/user/activate?uid=${result[0].insertId}">ссылке</a>`,
                     });
+                    if (resultMail.accepted.length){
+                        return res.send({result: true});
+                    }
+                    else {
+                        mysql.query(`DELETE \`users\` WHERE \`id\` = ${result[0].insertId};`)
+                        .then(() => {
+                            mysql.close();
+                            return res.send({
+                                result: false,
+                                msg: "send email error",
+                                msgUser: "При отправки email произошла ошибка. Проверьте email и попробуйте позже"
+                            });
+                        });
+                    }
                 });
         }
     });
