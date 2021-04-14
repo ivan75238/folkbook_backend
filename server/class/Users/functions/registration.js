@@ -4,6 +4,7 @@ import {HTTPStatus} from "../../HTTPStatus";
 const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
 import {config} from "../../../config";
+const xoauth2 = require('xoauth2');
 
 export const registration = (req, res) => {
     if (!checkParams(req, ["username", "password"])) {
@@ -16,7 +17,7 @@ export const registration = (req, res) => {
     new MySQL().queryFull(`SELECT \`id\`, \`username\`, \`created_at\`, \`nickname\` FROM \`users\` WHERE \`username\` = '${req.body.username}'`,
     (results) => {
         if (results.length > 0) {
-            return res.send({
+            return res.status(HTTPStatus.FORBIDDEN).send({
                 result: false,
                 msg: "user name is exist",
                 msgUser: "Введенный email уже занят"
