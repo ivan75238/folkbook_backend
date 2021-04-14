@@ -1,9 +1,9 @@
 import MySQL from "../../mysql";
-import {checkParams} from "../../unitls";
+import {checkGetParams} from "../../unitls";
 import {HTTPStatus} from "../../HTTPStatus";
 
 export const activate = (req, res) => {
-    if (!checkParams(req, ["uid"])) {
+    if (!checkGetParams(req, ["uid"])) {
         return res.status(HTTPStatus.FORBIDDEN).send({
             result: false,
             msg: "Not all params",

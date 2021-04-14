@@ -6,3 +6,12 @@ export const checkParams = (req, params) => {
     });
     return allFinded;
 };
+
+export const checkGetParams = (req, params) => {
+    let allFinded = true;
+    params.map(param => {
+        if (req.query[param] === null || req.query[param] === undefined )
+            allFinded = false;
+    });
+    return allFinded;
+};
