@@ -7,6 +7,7 @@ export const ROUTS = {
         main: "/",
         login: "/login",
         logout: "/logout",
+        registration: "/registration",
         getActiveBooks: "/get_active_books",
     },
     BOOKS: {

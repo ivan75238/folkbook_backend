@@ -61,6 +61,7 @@ passport.use(new LocalStrategy((username, password, done) => {
                 if (!isValid) {
                     return done(null, false)
                 }
+
                 return done(null, user)
             })
         })
