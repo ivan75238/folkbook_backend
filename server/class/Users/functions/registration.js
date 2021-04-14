@@ -3,6 +3,7 @@ import {checkParams} from "../../unitls";
 import {HTTPStatus} from "../../HTTPStatus";
 const bcrypt = require('bcryptjs');
 const nodemailer = require('nodemailer');
+import {config} from "../../../config";
 
 export const registration = (req, res) => {
     if (!checkParams(req, ["username", "password"])) {
@@ -35,12 +36,12 @@ export const registration = (req, res) => {
                     let transporter = nodemailer.createTransport({
                         service: 'gmail',
                         auth: {
-                            user: 'folkbook.ru@gmail.com',
-                            pass: 'bARSIk75238',
+                            user: config.EMAIL,
+                            pass: config.EMAIL_PASS
                         },
                     });
                     let resultMail = await transporter.sendMail({
-                        from: "folkbook.ru@gmail.com",
+                        from: config.EMAIL,
                         to: req.body.username,
                         subject: 'Подтверждение регистрации',
                         text: 'Тект из поля text',
