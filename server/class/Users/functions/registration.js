@@ -45,11 +45,14 @@ export const registration = (req, res) => {
                         subject: 'Подтверждение регистрации',
                         text: 'Тект из поля text',
                         html: `Благодарим вас за регистрацию на folkbook.ru.
-                                <br/> Для активации акаунта перейдите по 
+                                <br/> Для активации аккаунта перейдите по 
                                 <a href="https://api.folkbook.ru/user/activate?uid=${result[0].insertId}">ссылке</a>`,
                     });
                     if (resultMail.accepted.length){
-                        return res.send({result: true});
+                        return res.send({
+                            result: true,
+                            msgUser: "Регистрация прошла успешно, для активации аккаунта на указанный адрес электронной почты отправислено письмо с инструкциями"
+                        });
                     }
                     else {
                         mysql.query(`DELETE \`users\` WHERE \`id\` = ${result[0].insertId};`)
