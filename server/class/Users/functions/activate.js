@@ -22,7 +22,7 @@ export const activate = (req, res) => {
         }
         else {
             const mysql = new MySQL();
-            mysql.query(`UPDATE \`users\` SET \`is_active\` = '1' WHERE \`id\` = ${req.body.uid};`)
+            mysql.query(`UPDATE \`users\` SET \`is_active\` = '1' WHERE \`id\` = ${req.query.uid};`)
                 .then(() => {
                         mysql.close();
                         return res.redirect('https://folkbook.ru');
