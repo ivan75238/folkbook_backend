@@ -2,8 +2,7 @@ import MySQL from "../../mysql";
 import {checkParams} from "../../unitls";
 import {HTTPStatus} from "../../HTTPStatus";
 const bcrypt = require('bcryptjs');
-const nodemailer = require('nodemailer');
-import {config} from "../../../config";
+import {MailSender} from "../../MailSender";
 
 export const registration = (req, res) => {
     if (!checkParams(req, ["username", "password"])) {
@@ -33,21 +32,12 @@ export const registration = (req, res) => {
             VALUES ('${req.body.username}', '${passwordHash}', '${req.body.username}');`
             )
                 .then(async result => {
-                    let transporter = nodemailer.createTransport({
-                        service: 'gmail',
-                        auth: {
-                            user: config.EMAIL,
-                            pass: config.EMAIL_PASS
-                        },
-                    });
-                    let resultMail = await transporter.sendMail({
-                        from: config.EMAIL,
-                        to: req.body.username,
+                    const resultMail = await new MailSender().send({
+                        toEmail: req.body.username,
                         subject: 'Подтверждение регистрации',
-                        text: 'Тект из поля text',
-                        html: `Благодарим вас за регистрацию на folkbook.ru.
+                        bodyHtml: `Благодарим вас за регистрацию на folkbook.ru.
                                 <br/> Для активации аккаунта перейдите по 
-                                <a href="https://api.folkbook.ru/user/activate?uid=${result[0].insertId}">ссылке</a>`,
+                                <a href="https://api.folkbook.ru/user/activate?uid=${result[0].insertId}">ссылке</a>`
                     });
                     if (resultMail.accepted.length){
                         return res.send({
