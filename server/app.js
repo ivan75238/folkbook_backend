@@ -72,7 +72,7 @@ passport.use(new LocalStrategy((username, password, done) => {
                         subject: 'Подтверждение регистрации',
                         bodyHtml: `Благодарим вас за регистрацию на folkbook.ru.
                             <br/> Для активации аккаунта перейдите по 
-                            <a href="https://api.folkbook.ru/user/activate?uid=${results[0].id}">ссылке</a>`
+                            <a href="https://api.folkbook.ru/user/activate?uid=${user.id}">ссылке</a>`
                     });
                     return done(
                         null,
