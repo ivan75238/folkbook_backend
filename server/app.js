@@ -18,8 +18,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const cors = require('cors');
 import "core-js/stable";
 import "regenerator-runtime/runtime";
-import {MailSender} from "./class/MailSender";
-
+const flash = require('connect-flash');
 const app = express();
 const client = redis.createClient({"password": "ujujkm123"});
 
@@ -46,6 +45,7 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(flash());
 
 passport.use(new LocalStrategy((username, password, done) => {
         findUser(username, (err, user) => {
@@ -63,23 +63,7 @@ passport.use(new LocalStrategy((username, password, done) => {
                     return done(null, false)
                 }
 
-                if (user.is_active) {
-                    return done(null, user);
-                }
-                else {
-                    await new MailSender().send({
-                        toEmail: username,
-                        subject: 'Подтверждение регистрации',
-                        bodyHtml: `Благодарим вас за регистрацию на folkbook.ru.
-                            <br/> Для активации аккаунта перейдите по 
-                            <a href="https://api.folkbook.ru/user/activate?uid=${user.id}">ссылке</a>`
-                    });
-                    return done(
-                        null,
-                        false,
-                        { message: "Учетная запись не активирована. На указанный email было отправленно повторное письмо с инструкцией по активации"}
-                    );
-                }
+                return done(null, user);
             })
         })
     }
