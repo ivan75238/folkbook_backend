@@ -18,6 +18,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const cors = require('cors');
 import "core-js/stable";
 import "regenerator-runtime/runtime";
+import {cronStart} from "./cron";
 const flash = require('connect-flash');
 const app = express();
 const client = redis.createClient({"password": "ujujkm123"});
@@ -108,3 +109,5 @@ app.use(ROUTS.BOOKS.index, booksRouter);
 app.use(express.static(path.join(__dirname, '../public')));
 
 export default app;
+
+cronStart();
