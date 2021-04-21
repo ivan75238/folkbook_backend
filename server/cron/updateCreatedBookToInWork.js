@@ -9,7 +9,7 @@ import {extendStartedBook} from "./utils/extendStartedBook";
 const CronJob = require('cron').CronJob;
 
 export const updateCreatedBookToInWork = () => {
-    const job = new CronJob('0 */5 * * * *', function() {
+    const job = new CronJob('0 */1 * * * *', function() {
         const now = moment().set({second: 0}).format("YYYY-MM-DD HH:mm:ss");
         const mysql = new MySQL();
         mysql.query(`SELECT * FROM \`books\` WHERE \`books\`.\`started_at\` = '${now}'`)
