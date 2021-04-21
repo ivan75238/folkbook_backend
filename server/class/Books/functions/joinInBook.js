@@ -18,6 +18,10 @@ export const joinInBook = (req, res) => {
             mysql.query(`SELECT * FROM \`participants_in_book\` WHERE \`id_book\` = '${req.body.id_book}';`)
                 .then(result => {
                     if (result[0].length < book.max_participants) {
+                        mysql.query(`
+                                    INSERT INTO \`participants_in_book\` (\`id_user\`, \`id_book\`) 
+                                    VALUES ('${req.body.id_user}', '${req.body.id_book}')`)
+                            .then(() => res.send({result: true}));
                     }
                     else {
                         res.status(HTTPStatus.FORBIDDEN).send({
