@@ -9,7 +9,7 @@ import {extendStartedBook} from "./utils/extendStartedBook";
 const CronJob = require('cron').CronJob;
 
 export const updateCreatedBookToInWork = () => {
-    const job = new CronJob('0 */1 * * * *', function() {
+    const job = new CronJob('0 */5 * * * *', function() {
         const now = moment().set({second: 0}).format("YYYY-MM-DD HH:mm:ss");
         const mysql = new MySQL();
         mysql.query(`SELECT * FROM \`books\` WHERE \`books\`.\`started_at\` = '${now}'`)
@@ -20,7 +20,7 @@ export const updateCreatedBookToInWork = () => {
                         if (result.length > 0) {
                             if (result[0].length > 0) {
                                 const count = result[0][0].count;
-                                if (count > 3) {
+                                if (count >= 3) {
                                     //Переводим в работу книгу
                                     mysql.query(`UPDATE \`books\` SET \`status\` = 'in_work' WHERE \`id\` = '${book.id}';`);
                                     console.log(`Книга id ${book.id}: переведена в работу`);
