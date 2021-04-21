@@ -1,7 +1,7 @@
 import moment from "moment";
 import MySQL from "../class/mysql";
 import {extendSection} from "./utils/extendSection";
-import {createSectionWithoutVotes} from "./utils/createSectionWithoutVotes";
+import {createSection} from "./utils/createSection";
 import {createVote} from "./utils/createVote";
 import {closeChapter} from "./utils/closeChapter";
 import {closeBook} from "./utils/closeBook";
@@ -16,7 +16,7 @@ export const checkCreateVotes = () => {
                 if (result[0].length > 0) {
                     result[0].map(async section => {
                         //Получаем количество вариантов
-                        const resultCountApplicants = await mysql.query(`SELECT * AS count FROM \`applicants\` WHERE \`id_section\` = '${section.id}'`);
+                        const resultCountApplicants = await mysql.query(`SELECT * FROM \`applicants\` WHERE \`id_section\` = '${section.id}'`);
                         const applicants = resultCountApplicants[0];
                         if (applicants.length === 0) {
                             //Продлеваем секцию
@@ -33,7 +33,7 @@ export const checkCreateVotes = () => {
                             }
                             else {
                                 //закрываем текущую секцию
-                                createSectionWithoutVotes(mysql, section, applicants[0]);
+                                createSection(mysql, section, applicants[0], applicants[0].next_is_last_in_chapter, applicants[0].next_is_last_in_book);
                             }
                         }
                         else if (!section.id_section_vote) {

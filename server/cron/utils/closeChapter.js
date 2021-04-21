@@ -10,7 +10,7 @@ export const closeChapter = async (mysql, section, applicant) => {
     //получаем старую главу, что бы получить id книги
     const resultChapter = await mysql.query(`SELECT * FROM \`chapters\` WHERE \`id\` = '${section.id_chapter}'`);
     const id_book = resultChapter[0][0].id_book;
-    const next_chapter_number = resultChapter[0][0].number;
+    const next_chapter_number = resultChapter[0][0].number+1;
     //создаем новую главу
     const resultNewChapter = await mysql.query(`INSERT INTO \`chapters\` (\`id_book\`, \`number\`) VALUES ('${id_book}', '${next_chapter_number}')`);
     const id_new_chapter = resultNewChapter[0].insertId;

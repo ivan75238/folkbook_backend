@@ -9,6 +9,8 @@ import {createDraftSection} from "../class/Books/functions/createDraftSection";
 import {updateDraftSection} from "../class/Books/functions/updateDraftSection";
 import {sendApplicant} from "../class/Books/functions/sendApplicant";
 import {getApplicantsOnSection} from "../class/Books/functions/getApplicantsOnSection";
+import {getUserVoteFromSection} from "../class/Books/functions/getUserVoteFromSection";
+import {sendVoteResult} from "../class/Books/functions/sendVoteResult";
 
 var express = require('express');
 var router = express.Router();
@@ -19,8 +21,10 @@ router.get(ROUTS.BOOKS.getNew, authenticationMiddleware(), getNewBook);
 router.get(ROUTS.BOOKS.get, authenticationMiddleware(), get);
 router.get(ROUTS.BOOKS.getDraftSection, authenticationMiddleware(), getDraftSection);
 router.get(ROUTS.BOOKS.getApplicantsOnSection, authenticationMiddleware(), getApplicantsOnSection);
+router.get(ROUTS.BOOKS.getUserVoteFromSection, authenticationMiddleware(), getUserVoteFromSection);
 router.post(ROUTS.BOOKS.createDraftSection, authenticationMiddleware(), createDraftSection);
 router.post(ROUTS.BOOKS.updateDraftSection, authenticationMiddleware(), updateDraftSection);
 router.post(ROUTS.BOOKS.sendApplicant, authenticationMiddleware(), sendApplicant);
+router.post(ROUTS.BOOKS.sendVoteResult, authenticationMiddleware(), sendVoteResult);
 
 export default router;

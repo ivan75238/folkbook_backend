@@ -1,3 +1,4 @@
+
 export const ROUTS = {
     MAIN: {
         index: "/"
@@ -19,8 +20,10 @@ export const ROUTS = {
         get: "/get",
         getDraftSection: "/get_draft_section",
         getApplicantsOnSection: "/get_applicants_on_section",
+        getUserVoteFromSection: "/get_user_vote_from_section",
         createDraftSection: "/create_draft_section",
         updateDraftSection: "/update_draft_section",
         sendApplicant: "/send_applicant",
+        sendVoteResult: "/send_vote_result",
     }
 };
