@@ -4,6 +4,13 @@ import {checkParams} from "../../unitls";
 import moment from "moment";
 
 export const create = (req, res) => {
+    if (!checkParams(req, ["name", "age_rating", "started_at", "genres"])) {
+        return res.status(HTTPStatus.FORBIDDEN).send({
+            result: false,
+            msg: "Not all params",
+            msgUser: "Переданы не все обязательные параметры"
+        });
+    }
     let id_book;
     const mysql = new MySQL();
     createBook(req, res, mysql)
@@ -20,13 +27,6 @@ export const create = (req, res) => {
 };
 
 const createBook = (req, res, mysql) => {
-    if (!checkParams(req, ["name", "age_rating", "started_at", "genres"])) {
-        return res.status(HTTPStatus.FORBIDDEN).send({
-            result: false,
-            msg: "Not all params",
-            msgUser: "Переданы не все обязательные параметры"
-        });
-    }
     return mysql.query(`
         INSERT INTO \`books\` (\`name\`, \`age_rating\`, \`created_type\`, \`started_at\`, \`status\`) 
         VALUES ('${req.body.name}', '${req.body.age_rating}', 'auto', '${req.body.started_at}', 'created')`)
