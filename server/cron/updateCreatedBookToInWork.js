@@ -18,15 +18,22 @@ export const updateCreatedBookToInWork = () => {
                     result[0].map(async book => {
                         const result = await mysql.query(`SELECT COUNT(*) AS \`count\` FROM \`participants_in_book\` WHERE \`id_book\` = '${book.id}' GROUP BY \`id_book\``);
                         if (result.length > 0) {
-                            console.log("result[0]", book.id, result[0], result[0][0], result[0][0].count);
-                            const count = result[0][0].count;
-                            if (count > 3) {
-                                //Переводим в работу книгу
-                                mysql.query(`UPDATE \`books\` SET \`status\` = 'in_work' WHERE \`id\` = '${book.id}';`);
+                            if (result[0].length > 0) {
+                                const count = result[0][0].count;
+                                if (count > 3) {
+                                    //Переводим в работу книгу
+                                    mysql.query(`UPDATE \`books\` SET \`status\` = 'in_work' WHERE \`id\` = '${book.id}';`);
+                                    console.log(`Книга id ${book.id}: переведена в работу`);
+                                } else {
+                                    //Продлеваем старт книги, пока не будет минимальное количество участников
+                                    extendStartedBook(mysql, book);
+                                    console.log(`Книга id ${book.id}: продлен старт`);
+                                }
                             }
                             else {
                                 //Продлеваем старт книги, пока не будет минимальное количество участников
                                 extendStartedBook(mysql, book);
+                                console.log(`Книга id ${book.id}: продлен старт`);
                             }
                         }
                     });
