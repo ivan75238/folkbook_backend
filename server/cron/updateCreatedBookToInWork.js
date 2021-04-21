@@ -18,7 +18,7 @@ export const updateCreatedBookToInWork = () => {
                     result[0].map(async book => {
                         const result = await mysql.query(`SELECT COUNT(*) AS \`count\` FROM \`participants_in_book\` WHERE \`id_book\` = '${book.id}' GROUP BY \`id_book\``);
                         if (result.length > 0) {
-                            console.log("result[0]", result[0], result[0][0]);
+                            console.log("result[0]", book.id, result[0], result[0][0], result[0][0].count);
                             const count = result[0][0].count;
                             if (count > 3) {
                                 //Переводим в работу книгу
