@@ -13,7 +13,7 @@ export const registration = async (req, res) => {
         });
     }
     const mysql = new MySQL();
-    const results = await mysql.query(`SELECT \`id\`, \`username\`, \`created_at\`, \`nickname\` FROM \`users\` WHERE \`username\` = '${req.body.username}'`);
+    const results = (await mysql.query(`SELECT \`id\`, \`username\`, \`created_at\`, \`nickname\` FROM \`users\` WHERE \`username\` = '${req.body.username}'`))[0];
     if (results.length > 0) {
         mysql.close();
         return res.status(HTTPStatus.FORBIDDEN).send({

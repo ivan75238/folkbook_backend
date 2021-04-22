@@ -11,7 +11,7 @@ export const activate = async (req, res) => {
         });
     }
     const mysql = new MySQL();
-    const results = await mysql.query(`SELECT \`id\`, \`username\`, \`created_at\`, \`nickname\` FROM \`users\` WHERE \`id\` = '${req.body.uid}'`);
+    const results = (await mysql.query(`SELECT \`id\`, \`username\`, \`created_at\`, \`nickname\` FROM \`users\` WHERE \`id\` = '${req.body.uid}'`))[0];
     if (results.length > 0) {
         //Когда нибудь тут будет перенаправление на страницу с печалькой
         mysql.close();
