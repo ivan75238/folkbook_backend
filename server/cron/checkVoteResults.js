@@ -34,7 +34,7 @@ export const checkVoteResults = () => {
                         else {
                             //закрываем текущую секцию
                             //Ищем сколько проголосовало за завершение главы в следующей секции
-                            const resultLastInChapter = await mysql.query(`SELECT \`next_is_last_in_chapter\`, COUNT(\`next_is_last_in_chapter\`) AS \`count\` FROM \`section_voting_results\` WHERE \`id_vote\` = '3' GROUP BY \`next_is_last_in_chapter\``);
+                            const resultLastInChapter = await mysql.query(`SELECT \`next_is_last_in_chapter\`, COUNT(\`next_is_last_in_chapter\`) AS \`count\` FROM \`section_voting_results\` WHERE \`id_vote\` = '${section.id_section_vote}' GROUP BY \`next_is_last_in_chapter\``);
                             console.log("lastInChapterVotes 0", resultLastInChapter);
                             const lastInChapterVotes = _orderBy(resultLastInChapter[0], ["next_is_last_in_chapter"]);
                             console.log("lastInChapterVotes 1", lastInChapterVotes);
@@ -44,7 +44,7 @@ export const checkVoteResults = () => {
                                 resultVotesChapters = 1;
                             }
                             //Ищем сколько проголосовало за завершение книги в следующей секции
-                            const resultLastInBook = await mysql.query(`SELECT \`next_is_last_in_book\`, COUNT(\`next_is_last_in_book\`) AS \`count\` FROM \`section_voting_results\` WHERE \`id_vote\` = '3' GROUP BY \`next_is_last_in_book\``);
+                            const resultLastInBook = await mysql.query(`SELECT \`next_is_last_in_book\`, COUNT(\`next_is_last_in_book\`) AS \`count\` FROM \`section_voting_results\` WHERE \`id_vote\` = '${section.id_section_vote}' GROUP BY \`next_is_last_in_book\``);
                             const lastInBookVotes = _orderBy(resultLastInBook[0], ["next_is_last_in_chapter"]);
                             let resultVotesBook = 0;
                             let summaryCountBook = lastInBookVotes[0].count + lastInBookVotes[1].count;
