@@ -14,6 +14,6 @@ export const getApplicantsOnSection = async (req, res) => {
     }
     const mysqlPoll = new MySQL();
 
-    const result = await mysqlPoll.query(`SELECT * FROM \`applicants\` WHERE \`id_section\` = '${req.query.id_section}';`);
+    const result = await mysqlPoll.query(`SELECT * FROM \`applicants\` WHERE \`id_section\` = '${req.query.id_section}' AND \`status\` = 'finished'`);
     res.send(result[0]);
 };
