@@ -2,7 +2,7 @@ import MySQL from "../../mysql";
 import {checkGetParams} from "../../unitls";
 import {HTTPStatus} from "../../HTTPStatus";
 
-export const activate = (req, res) => {
+export const activate = async (req, res) => {
     if (!checkGetParams(req, ["uid"])) {
         return res.status(HTTPStatus.FORBIDDEN).send({
             result: false,
@@ -10,23 +10,20 @@ export const activate = (req, res) => {
             msgUser: "Переданы не все обязательные параметры"
         });
     }
-    new MySQL().queryFull(`SELECT \`id\`, \`username\`, \`created_at\`, \`nickname\` FROM \`users\` WHERE \`id\` = '${req.body.uid}'`,
-    (results) => {
-        if (results.length > 0) {
-            //Когда нибудь тут будет перенаправление на страницу с печалькой
-            return res.send({
-                result: false,
-                msg: "user not found",
-                msgUser: "Не найден пользователь"
-            });
-        }
-        else {
-            const mysql = new MySQL();
-            mysql.query(`UPDATE \`users\` SET \`is_active\` = '1' WHERE \`id\` = ${req.query.uid};`)
-                .then(() => {
-                        mysql.close();
-                        return res.redirect('https://folkbook.ru');
-                });
-        }
-    });
+    const mysql = new MySQL();
+    const results = await mysql.query(`SELECT \`id\`, \`username\`, \`created_at\`, \`nickname\` FROM \`users\` WHERE \`id\` = '${req.body.uid}'`);
+    if (results.length > 0) {
+        //Когда нибудь тут будет перенаправление на страницу с печалькой
+        mysql.close();
+        return res.send({
+            result: false,
+            msg: "user not found",
+            msgUser: "Не найден пользователь"
+        });
+    }
+    else {
+        await mysql.query(`UPDATE \`users\` SET \`is_active\` = '1' WHERE \`id\` = ${req.query.uid};`);
+        mysql.close();
+        return res.redirect('https://folkbook.ru');
+    }
 };

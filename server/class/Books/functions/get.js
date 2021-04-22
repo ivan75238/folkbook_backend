@@ -16,7 +16,6 @@ export const get = async (req, res) => {
     let books = [];
     let book = null;
     const mysql = new MySQL();
-    const mysqlPoll = new MySQLPool();
     mysql.query(`SELECT 
         \`books\`.\`id\`, 
         \`books\`.\`name\`, 
@@ -35,6 +34,7 @@ export const get = async (req, res) => {
         .then(async results => {
             books = results[0];
             if (books.length === 0) {
+                mysql.close();
                 return res.status(HTTPStatus.FORBIDDEN).send({
                     result: false,
                     msg: "Not all params",
@@ -42,7 +42,7 @@ export const get = async (req, res) => {
                 });
             }
             book = books[0];
-            const resultsGenres = await mysqlPoll.query(`
+            const resultsGenres = await mysql.query(`
                 SELECT 
                     \`genres_of_books\`.\`id_book\`, 
                     \`genres\`.\`title\` 
@@ -50,14 +50,15 @@ export const get = async (req, res) => {
                 WHERE \`genres_of_books\`.\`id_book\` = '${book.id}';`
             );
             book.genres = resultsGenres[0].map(p => p.title);
-            const resultParticipants = await mysqlPoll.query(`SELECT * FROM \`participants_in_book\` WHERE \`id_book\` = '${book.id}';`)
+            const resultParticipants = await mysql.query(`SELECT * FROM \`participants_in_book\` WHERE \`id_book\` = '${book.id}';`);
             book.participants = resultParticipants[0].map(p => p.id_user);
-            const resultChapters = await mysqlPoll.query(`SELECT * FROM \`chapters\` WHERE \`id_book\` = '${book.id}';`);
+            const resultChapters = await mysql.query(`SELECT * FROM \`chapters\` WHERE \`id_book\` = '${book.id}';`);
             book.chapters = resultChapters[0].map(p => ({
                 id: p.id,
                 number: p.number,
                 sections: []
             }));
+            const mysqlPoll = new MySQLPool();
             const resultSections = await Promise.all(
                 book.chapters.map(chapter => mysqlPoll.query(`SELECT * FROM \`sections\` WHERE \`id_chapter\` = '${chapter.id}';`))
             );
@@ -70,6 +71,7 @@ export const get = async (req, res) => {
                 }
             });
             mysql.close();
+            mysqlPoll.close();
             res.send(book)
         })
 };

@@ -17,6 +17,7 @@ export const closeChapter = async (mysql, section, applicant) => {
     //создаем первую секцию в новой главе
     const finished_at_next = moment(section.vote_finished_at).add(ADD_COUNT_DAY_ON_WRITE, "days").set({second: 0}).format("YYYY-MM-DD HH:mm:ss");
     const vote_finished_at_next = moment(finished_at_next, "YYYY-MM-DD HH:mm:ss").add(ADD_COUNT_DAY_ON_VOTE, "days").set({second: 0}).format("YYYY-MM-DD HH:mm:ss");
-    mysql.query(`INSERT INTO \`sections\` (\`id_chapter\`, \`number\`, \`finished_at\`, \`vote_finished_at\`)
-                                            VALUES ('${id_new_chapter}', '1', '${finished_at_next}', '${vote_finished_at_next}');`);
+    await mysql.query(`INSERT INTO \`sections\` (\`id_chapter\`, \`number\`, \`finished_at\`, \`vote_finished_at\`)
+                       VALUES ('${id_new_chapter}', '1', '${finished_at_next}', '${vote_finished_at_next}');`);
+    mysql.close();
 };

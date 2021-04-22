@@ -17,4 +17,8 @@ export default class MySQLPool {
     query = (sql) => {
         return this.connection.query(sql);
     };
+
+    close = () => {
+        this.connection.end();
+    };
 }

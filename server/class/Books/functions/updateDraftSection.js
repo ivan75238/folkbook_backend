@@ -21,9 +21,7 @@ export const updateDraftSection = async (req, res) => {
         });
     }
     const mysql = new MySQL();
-    mysql.query(`UPDATE \`applicants\` SET \`text\` = '${req.body.text}', \`next_is_last_in_chapter\` = '${req.body.next_is_last_in_chapter ? 1 : 0}', \`next_is_last_in_book\` = '${req.body.next_is_last_in_book ? 1 : 0}' WHERE \`id_section\` = ${req.body.id_section};`)
-    .then(() => {
-        mysql.close();
-        res.send({result: true})
-    });
+    await mysql.query(`UPDATE \`applicants\` SET \`text\` = '${req.body.text}', \`next_is_last_in_chapter\` = '${req.body.next_is_last_in_chapter ? 1 : 0}', \`next_is_last_in_book\` = '${req.body.next_is_last_in_book ? 1 : 0}' WHERE \`id_section\` = ${req.body.id_section};`);
+    mysql.close();
+    res.send({result: true});
 };

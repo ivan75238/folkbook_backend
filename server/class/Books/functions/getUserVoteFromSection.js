@@ -21,5 +21,6 @@ export const getUserVoteFromSection = async (req, res) => {
         const resultVotingResults = await mysql.query(`SELECT * FROM \`section_voting_results\` WHERE \`id_vote\` = '${id_vote}' AND \`id_user\` = '${req.user.id}';`);
         isVoted = resultVotingResults[0].length;
     }
+    mysql.close();
     res.send({isVoted});
 };
