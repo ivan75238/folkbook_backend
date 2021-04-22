@@ -35,7 +35,9 @@ export const checkVoteResults = () => {
                             //закрываем текущую секцию
                             //Ищем сколько проголосовало за завершение главы в следующей секции
                             const resultLastInChapter = await mysql.query(`SELECT \`next_is_last_in_chapter\`, COUNT(\`next_is_last_in_chapter\`) AS \`count\` FROM \`section_voting_results\` WHERE \`id_vote\` = '3' GROUP BY \`next_is_last_in_chapter\``);
+                            console.log("lastInChapterVotes 0", resultLastInChapter);
                             const lastInChapterVotes = _orderBy(resultLastInChapter[0], ["next_is_last_in_chapter"]);
+                            console.log("lastInChapterVotes 1", lastInChapterVotes);
                             let resultVotesChapters = 0;
                             let summaryCount = lastInChapterVotes[0].count + lastInChapterVotes[1].count;
                             if (lastInChapterVotes[1].count/summaryCount > lastInChapterVotes[0].count/summaryCount) {
@@ -48,6 +50,10 @@ export const checkVoteResults = () => {
                             let summaryCountBook = lastInBookVotes[0].count + lastInBookVotes[1].count;
                             if (lastInBookVotes[1].count/summaryCountBook > lastInBookVotes[0].count/summaryCountBook) {
                                 resultVotesBook = 1;
+                            }
+                            //Если пользователи проголосвали за завершение книги, то обнуляем завершение главы. Завершение книги важнее.
+                            if (resultVotesBook) {
+                                resultVotesChapters = 0;
                             }
                             //закрываем текущую секцию
                             createSection(mysql, section, applicant, resultVotesChapters, resultVotesBook);
