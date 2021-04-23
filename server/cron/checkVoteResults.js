@@ -8,7 +8,7 @@ import {createSection} from "./utils/createSection";
 const CronJob = require('cron').CronJob;
 
 export const checkVoteResults = () => {
-    const job = new CronJob('0 */5 * * * *', async () => {
+    const job = new CronJob('0 */1 * * * *', async () => {
         const now = moment().set({second: 0}).format("YYYY-MM-DD HH:mm:ss");
         const mysql = new MySQL();
         const result = await mysql.query(`SELECT \`sections\`.*, \`section_votes\`.\`id\` AS 'id_section_vote' FROM \`sections\` INNER JOIN \`section_votes\` ON \`sections\`.\`id\` = \`section_votes\`.\`id_section\` WHERE \`sections\`.\`vote_finished_at\` = '${now}'`);
@@ -20,7 +20,8 @@ export const checkVoteResults = () => {
                     const resultVoteResults = await mysql.query(`SELECT MIN(\`id\`) AS \`id\`, \`id_applicant\`, COUNT(\`id_applicant\`) AS \`count\` FROM \`section_voting_results\` WHERE \`id_vote\` = '${section.id_section_vote}' GROUP BY \`section_voting_results\`.\`id_applicant\``);
                     const results = resultVoteResults[0];
                     if (results.length) {
-                        const winnerApplicant = _orderBy(results, ["count", "id"])[0];
+                        let applicants = _orderBy(results, ["count", "id"], ["desc", "asc"]);
+                        const winnerApplicant = applicants[0];
                         const resultCountApplicants = await mysql.query(`SELECT * FROM \`applicants\` WHERE \`id\` = '${winnerApplicant.id_applicant}'`);
                         const applicant = resultCountApplicants[0][0];
                         //Если текущая секция помечена как последняя в главе
