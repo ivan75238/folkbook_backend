@@ -1,6 +1,9 @@
 import moment from "moment";
 import MySQL from "../class/mysql";
 import {extendStartedBook} from "./utils/extendStartedBook";
+import {extendStartedBook as extendStartedBookEmail} from "../emailsTemplate/extendStartedBook";
+import {MailSender} from "../class/MailSender";
+import {startedBook} from "../emailsTemplate/startedBook";
 const CronJob = require('cron').CronJob;
 
 export const updateCreatedBookToInWork = () => {
@@ -20,16 +23,28 @@ export const updateCreatedBookToInWork = () => {
                             //Переводим в работу книгу
                             mysql.query(`UPDATE \`books\` SET \`status\` = 'in_work' WHERE \`id\` = '${book.id}';`);
                             mysql.close();
+                            new MailSender().sendAllParticipants(book.id, {
+                                subject: `Старт книги ${book.name}`,
+                                bodyHtml: startedBook()
+                            });
                             console.log(`Книга id ${book.id}: переведена в работу`);
                         } else {
                             //Продлеваем старт книги, пока не будет минимальное количество участников
                             extendStartedBook(mysql, book);
+                            new MailSender().sendAllParticipants(book.id, {
+                                subject: `Изменение даты старта книги ${book.name}`,
+                                bodyHtml: extendStartedBook()
+                            });
                             console.log(`Книга id ${book.id}: продлен старт`);
                         }
                     }
                     else {
                         //Продлеваем старт книги, пока не будет минимальное количество участников
                         extendStartedBook(mysql, book);
+                        new MailSender().sendAllParticipants(book.id, {
+                            subject: `Изменение даты старта книги ${book.name}`,
+                            bodyHtml: extendStartedBookEmail()
+                        });
                         console.log(`Книга id ${book.id}: продлен старт`);
                     }
                 }

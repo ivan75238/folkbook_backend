@@ -3,6 +3,7 @@ import {checkParams} from "../../unitls";
 import {HTTPStatus} from "../../HTTPStatus";
 const bcrypt = require('bcryptjs');
 import {MailSender} from "../../MailSender";
+import {activateUser} from "../../../emailsTemplate/activateUser";
 
 export const registration = async (req, res) => {
     if (!checkParams(req, ["username", "password"])) {
@@ -34,9 +35,7 @@ export const registration = async (req, res) => {
         const resultMail = await new MailSender().send({
             toEmail: req.body.username,
             subject: 'Подтверждение регистрации',
-            bodyHtml: `Благодарим вас за регистрацию на folkbook.ru.
-                    <br/> Для активации аккаунта перейдите по 
-                    <a href="https://api.folkbook.ru/user/activate?uid=${result[0].insertId}">ссылке</a>`
+            bodyHtml: activateUser(result[0].insertId)
         });
         if (resultMail.accepted.length){
             mysql.close();

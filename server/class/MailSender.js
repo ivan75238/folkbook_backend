@@ -1,4 +1,5 @@
 import {config} from "../config";
+import MySQL from "./mysql";
 const nodemailer = require('nodemailer');
 
 export class MailSender {
@@ -22,5 +23,20 @@ export class MailSender {
             text: '',
             html: bodyHtml,
         });
-    }
+    };
+
+    sendAllParticipants = async (id_book, emailObj) => {
+        const mysql = new MySQL();
+        const participants = (await mysql.query(`SELECT * FROM \`participants_in_book\` WHERE \`id_book\` = '${id_book}';`))[0];
+        mysql.close();
+        participants.map(async participant => {
+            const mysql = new MySQL();
+            const user = (await mysql.query(`SELECT * FROM \`user\` WHERE \`id\` = '${participant.id_user}';`))[0];
+            mysql.close();
+            this.send({
+                toEmail: user.username,
+                ...emailObj
+            });
+        });
+    };
 }

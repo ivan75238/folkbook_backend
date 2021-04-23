@@ -2,6 +2,8 @@ import MySQL from "../../mysql";
 import {HTTPStatus} from "../../HTTPStatus";
 import {checkParams} from "../../unitls";
 import moment from 'moment';
+import {MailSender} from "../../MailSender";
+import {changeDateStartBook} from "../../../emailsTemplate/changeDateStartBook";
 
 const ADD_COUNT_DAY = 2;
 
@@ -30,6 +32,10 @@ export const joinInBook = async (req, res) => {
             const section = (await mysql.query(`SELECT * FROM \`sections\` WHERE \`id_chapter\` = '${chapter.id}'`))[0][0];
             const vote_finished_at = moment(new_started_at).add(ADD_COUNT_DAY, "days").set({second: 0}).format("YYYY-MM-DD HH:mm:ss");
             await mysql.query(`UPDATE \`sections\` SET \`finished_at\` = '${new_started_at}', \`updated_at\` = NOW(), \`vote_finished_at\` = '${vote_finished_at}' WHERE \`id\` = '${section.id}';`);
+            new MailSender().sendAllParticipants(req.body.id_book, {
+                subject: `Изменение даты старта книги ${book.name}`,
+                bodyHtml: changeDateStartBook(moment(new_started_at).format("DD.MM.YYYY HH:mm"))
+            });
         }
         mysql.close();
         res.send({result: true});
