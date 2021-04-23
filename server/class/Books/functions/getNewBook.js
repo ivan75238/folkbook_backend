@@ -22,6 +22,8 @@ export const getNewBook = async (req, res) => {
         \`books\`.\`started_at\` > NOW() 
     GROUP BY 
         \`chapters\`.\`id_book\`
+    ORDER BY 
+        \`books\`.\`started_at\`
     `);
     mysql.close();
     let books = results[0];
