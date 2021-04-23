@@ -68,6 +68,7 @@ export const getActiveBook = async (req, res) => {
         if (rows.length) {
             const index = books.findIndex(i => i.last_chapter_id === rows[0].id_chapter);
             if (index > -1) {
+                rows = _orderBy(rows, i => i.number, "desc");
                 books[index].last_section = rows[0];
             }
         }

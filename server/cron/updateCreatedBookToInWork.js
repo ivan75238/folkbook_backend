@@ -1,10 +1,5 @@
 import moment from "moment";
 import MySQL from "../class/mysql";
-import {closeChapter} from "./utils/closeChapter";
-import {extendSectionVote} from "./utils/extendSectionVote";
-import _orderBy from 'lodash/orderBy';
-import {closeBook} from "./utils/closeBook";
-import {createSection} from "./utils/createSection";
 import {extendStartedBook} from "./utils/extendStartedBook";
 const CronJob = require('cron').CronJob;
 
