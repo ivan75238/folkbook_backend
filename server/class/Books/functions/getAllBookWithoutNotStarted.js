@@ -4,25 +4,39 @@ import "regenerator-runtime/runtime";
 import MySQLPool from "../../mysqlPool";
 import _orderBy from 'lodash/orderBy';
 import moment from 'moment';
+import {checkGetParams} from "../../unitls";
+import {HTTPStatus} from "../../HTTPStatus";
 
 export const getAllBookWithoutNotStarted = async (req, res) => {
+    if (!checkGetParams(req, ["page", "count_on_page"])) {
+        return res.status(HTTPStatus.FORBIDDEN).send({
+            result: false,
+            msg: "Not all params",
+            msgUser: "Переданы не все обязательные параметры"
+        });
+    }
     const mysql = new MySQL();
     const mysqlPoll = new MySQLPool();
-    const results = await mysql.query(`SELECT 
-        \`books\`.\`id\`, 
-        \`books\`.\`name\`, 
-        \`books\`.\`age_rating\`, 
-        \`books\`.\`max_participants\`, 
-        \`books\`.\`started_at\`, 
-        \`books\`.\`status\`, 
-        COUNT(*) AS \`chapter_count\` 
-    FROM 
-        \`books\` INNER JOIN \`chapters\` ON \`books\`.\`id\` = \`chapters\`.\`id_book\`
-    WHERE 
-        \`books\`.\`status\` <> 'created'
-    GROUP BY 
-        \`chapters\`.\`id_book\`
+    const firstItemIndex = (req.query.page - 1) * req.query.count_on_page;
+    const results = await mysql.query(`
+        SELECT 
+            \`books\`.\`id\`, 
+            \`books\`.\`name\`, 
+            \`books\`.\`age_rating\`, 
+            \`books\`.\`max_participants\`, 
+            \`books\`.\`started_at\`, 
+            \`books\`.\`status\`, 
+            COUNT(*) AS \`chapter_count\`,
+            max(\`chapters\`.\`id\`) AS \`last_chapter_id\`
+        FROM 
+            \`books\` INNER JOIN \`chapters\` ON \`books\`.\`id\` = \`chapters\`.\`id_book\`
+        WHERE 
+            \`books\`.\`status\` <> 'created'
+        GROUP BY 
+            \`chapters\`.\`id_book\`
+        LIMIT ${firstItemIndex},${req.query.count_on_page}
     `);
+    const allCount = (await mysql.query(`SELECT COUNT(*) AS \`count\` FROM \`books\` WHERE \`books\`.\`status\` <> 'created'`))[0][0].count;
     mysql.close();
     let books = results[0];
     const resultGenres = await Promise.all(
@@ -42,7 +56,22 @@ export const getAllBookWithoutNotStarted = async (req, res) => {
             }
         }
     });
-    books = _orderBy(books, i => moment(i.started_at).unix());
+    const resultSections = await Promise.all(
+        books.map(book => mysqlPoll.query(`
+            SELECT \`sections\`.* 
+            FROM \`sections\` INNER JOIN \`chapters\` ON \`sections\`.\`id_chapter\` = \`chapters\`.\`id\` 
+            WHERE \`chapters\`.\`id\` = '${book.last_chapter_id}';`
+        ))
+    );
+    resultSections.forEach(([rows]) => {
+        if (rows.length) {
+            const index = books.findIndex(i => i.last_chapter_id === rows[0].id_chapter);
+            if (index > -1) {
+                rows = _orderBy(rows, i => i.number, "desc");
+                books[index].last_section = rows[0];
+            }
+        }
+    });
     mysqlPoll.close();
-    res.send(books);
+    res.send({ allCount, books });
 };
