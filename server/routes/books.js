@@ -11,6 +11,7 @@ import {sendApplicant} from "../class/Books/functions/sendApplicant";
 import {getApplicantsOnSection} from "../class/Books/functions/getApplicantsOnSection";
 import {getUserVoteFromSection} from "../class/Books/functions/getUserVoteFromSection";
 import {sendVoteResult} from "../class/Books/functions/sendVoteResult";
+import {getAllBookWithoutNotStarted} from "../class/Books/functions/getAllBookWithoutNotStarted";
 
 var express = require('express');
 var router = express.Router();
@@ -22,6 +23,7 @@ router.get(ROUTS.BOOKS.get, authenticationMiddleware(), get);
 router.get(ROUTS.BOOKS.getDraftSection, authenticationMiddleware(), getDraftSection);
 router.get(ROUTS.BOOKS.getApplicantsOnSection, authenticationMiddleware(), getApplicantsOnSection);
 router.get(ROUTS.BOOKS.getUserVoteFromSection, authenticationMiddleware(), getUserVoteFromSection);
+router.get(ROUTS.BOOKS.getAllBookWithoutNotStarted, authenticationMiddleware(), getAllBookWithoutNotStarted);
 router.post(ROUTS.BOOKS.createDraftSection, authenticationMiddleware(), createDraftSection);
 router.post(ROUTS.BOOKS.updateDraftSection, authenticationMiddleware(), updateDraftSection);
 router.post(ROUTS.BOOKS.sendApplicant, authenticationMiddleware(), sendApplicant);
