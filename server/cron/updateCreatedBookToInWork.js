@@ -33,7 +33,7 @@ export const updateCreatedBookToInWork = () => {
                             extendStartedBook(mysql, book);
                             new MailSender().sendAllParticipants(book.id, {
                                 subject: `Изменение даты старта книги ${book.name}`,
-                                bodyHtml: extendStartedBook()
+                                bodyHtml: extendStartedBookEmail()
                             });
                             console.log(`Книга id ${book.id}: продлен старт`);
                         }

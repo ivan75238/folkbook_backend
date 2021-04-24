@@ -25,12 +25,12 @@ export const joinInBook = async (req, res) => {
         const started_at = moment(book.started_at);
         //Если между датой старта и текущей датой меньше часа, то не трогаем ничего
         //Иначе передвинем на ближйший час
-        if (moment().diff(started_at, 'hours') > 1) {
+        if (started_at.diff(moment(), 'hours') > 1) {
             const new_started_at = moment().add(1, "h").set({minute: 0, second: 0}).format("YYYY-MM-DD HH:mm:ss");
             await mysql.query(`UPDATE \`books\` SET \`started_at\` = '${new_started_at}' WHERE \`id\` = '${req.body.id_book}';`);
             const chapter = (await mysql.query(`SELECT * FROM \`chapters\` WHERE \`id_book\` = '${req.body.id_book}'`))[0][0];
             const section = (await mysql.query(`SELECT * FROM \`sections\` WHERE \`id_chapter\` = '${chapter.id}'`))[0][0];
-            const vote_finished_at = moment(new_started_at).add(ADD_COUNT_DAY, "days").set({second: 0}).format("YYYY-MM-DD HH:mm:ss");
+            const vote_finished_at = moment(new_started_at).add(ADD_COUNT_DAY, "days").format("YYYY-MM-DD HH:mm:ss");
             await mysql.query(`UPDATE \`sections\` SET \`finished_at\` = '${new_started_at}', \`updated_at\` = NOW(), \`vote_finished_at\` = '${vote_finished_at}' WHERE \`id\` = '${section.id}';`);
             new MailSender().sendAllParticipants(req.body.id_book, {
                 subject: `Изменение даты старта книги ${book.name}`,

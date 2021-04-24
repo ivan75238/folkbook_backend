@@ -7,7 +7,10 @@ export class MailSender {
 
     constructor() {
         this.transporter = nodemailer.createTransport({
-            service: 'gmail',
+            host: "smtp.gmail.com",
+            secure: true,
+            port: 465,
+            rejectUnauthorized: false,
             auth: {
                 user: config.EMAIL,
                 pass: config.EMAIL_PASS
@@ -15,8 +18,8 @@ export class MailSender {
         });
     }
 
-    send = async ({toEmail, subject, bodyHtml}) => {
-        return await this.transporter.sendMail({
+    send = ({toEmail, subject, bodyHtml}) => {
+        return this.transporter.sendMail({
             from: config.EMAIL,
             to: toEmail,
             subject: subject,
@@ -31,12 +34,15 @@ export class MailSender {
         mysql.close();
         participants.map(async participant => {
             const mysql = new MySQL();
-            const user = (await mysql.query(`SELECT * FROM \`user\` WHERE \`id\` = '${participant.id_user}';`))[0];
+            const user = (await mysql.query(`SELECT * FROM \`users\` WHERE \`id\` = '${participant.id_user}';`))[0];
             mysql.close();
             this.send({
-                toEmail: user.username,
+                toEmail: user[0].username,
                 ...emailObj
-            });
+            })
+                .catch(response => {
+                    console.log("response", response);
+                });
         });
     };
 }
