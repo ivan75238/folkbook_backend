@@ -1,4 +1,3 @@
-import {getAllBookWithoutNotStarted} from "../class/Books/functions/getAllBookWithoutNotStarted";
 
 export const ROUTS = {
     MAIN: {
@@ -27,5 +26,11 @@ export const ROUTS = {
         sendApplicant: "/send_applicant",
         sendVoteResult: "/send_vote_result",
         getAllBookWithoutNotStarted: "/get_all_book_without_not_started",
+    },
+    LIKED_BOOKS: {
+        index: "/liked_books",
+        get: "/get",
+        create: "/create",
+        remove: "/remove",
     }
 };

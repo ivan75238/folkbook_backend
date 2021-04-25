@@ -2,6 +2,7 @@ import {ROUTS} from "./routes";
 import indexRouter from './routes/main';
 import usersRouter from './routes/users';
 import booksRouter from './routes/books';
+import likedBooksRouter from './routes/liked_books';
 import path from 'path';
 import {authenticationMiddleware} from "./class/Authentication/midlleware";
 import {findUser} from "./class/Authentication/init";
@@ -106,6 +107,7 @@ app.options('*', cors(corsOptions));
 app.use(ROUTS.MAIN.index, indexRouter);
 app.use(ROUTS.USER.index, usersRouter);
 app.use(ROUTS.BOOKS.index, booksRouter);
+app.use(ROUTS.LIKED_BOOKS.index, likedBooksRouter);
 app.use(express.static(path.join(__dirname, '../public')));
 
 export default app;

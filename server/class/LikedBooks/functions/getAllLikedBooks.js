@@ -1,12 +1,9 @@
 import MySQL from "../../mysql";
-import "core-js/stable";
-import "regenerator-runtime/runtime";
-import MySQLPool from "../../mysqlPool";
-import _orderBy from 'lodash/orderBy';
-import {checkGetParams} from "../../unitls";
 import {HTTPStatus} from "../../HTTPStatus";
+import {checkGetParams, checkParams} from "../../unitls";
+import MySQLPool from "../../mysqlPool";
 
-export const getAllBookWithoutNotStarted = async (req, res) => {
+export const getAllLikedBooks = async (req, res) => {
     if (!checkGetParams(req, ["page", "count_on_page"])) {
         return res.status(HTTPStatus.FORBIDDEN).send({
             result: false,
@@ -29,8 +26,9 @@ export const getAllBookWithoutNotStarted = async (req, res) => {
             max(\`chapters\`.\`id\`) AS \`last_chapter_id\`
         FROM 
             \`books\` INNER JOIN \`chapters\` ON \`books\`.\`id\` = \`chapters\`.\`id_book\`
+            INNER JOIN \`liked_books\` ON \`books\`.\`id\` = \`liked_books\`.\`id_book\`
         WHERE 
-            \`books\`.\`status\` <> 'created'
+            \`liked_books\`.\`id_user\` = '${req.user.id}'
         GROUP BY 
             \`chapters\`.\`id_book\`
         LIMIT ${firstItemIndex},${req.query.count_on_page}
