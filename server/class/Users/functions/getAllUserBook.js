@@ -1,10 +1,13 @@
 import MySQL from "../../mysql";
-import {HTTPStatus} from "../../HTTPStatus";
-import {checkGetParams} from "../../unitls";
+import "core-js/stable";
+import "regenerator-runtime/runtime";
 import MySQLPool from "../../mysqlPool";
 import _orderBy from 'lodash/orderBy';
+import moment from 'moment';
+import {checkGetParams} from "../../unitls";
+import {HTTPStatus} from "../../HTTPStatus";
 
-export const getAllLikedBooks = async (req, res) => {
+export const getAllUserBook = async (req, res) => {
     if (!checkGetParams(req, ["page", "count_on_page"])) {
         return res.status(HTTPStatus.FORBIDDEN).send({
             result: false,
@@ -13,7 +16,6 @@ export const getAllLikedBooks = async (req, res) => {
         });
     }
     const mysql = new MySQL();
-    const mysqlPoll = new MySQLPool();
     const firstItemIndex = (req.query.page - 1) * req.query.count_on_page;
     const results = await mysql.query(`
         SELECT 
@@ -22,21 +24,35 @@ export const getAllLikedBooks = async (req, res) => {
             \`books\`.\`age_rating\`, 
             \`books\`.\`max_participants\`, 
             \`books\`.\`started_at\`, 
-            \`books\`.\`status\`, 
+            \`books\`.\`status\`,
             COUNT(*) AS \`chapter_count\`,
+            max(\`chapters\`.\`number\`) AS \`last_chapter_number\`,
             max(\`chapters\`.\`id\`) AS \`last_chapter_id\`
         FROM 
-            \`liked_books\` INNER JOIN \`books\` ON \`liked_books\`.\`id_book\` = \`books\`.\`id\`
-            INNER JOIN \`chapters\` ON \`chapters\`.\`id_book\` = \`books\`.\`id\`
+            \`participants_in_book\` INNER JOIN \`books\` ON \`books\`.\`id\` = \`participants_in_book\`.\`id_book\`
+            INNER JOIN \`chapters\` ON \`books\`.\`id\` = \`chapters\`.\`id_book\`
         WHERE 
-            \`liked_books\`.\`id_user\` = '${req.user.id}'
+            \`participants_in_book\`.\`id_user\` = '${req.user.id}' AND 
+            \`books\`.\`status\` <> 'create'
         GROUP BY 
             \`chapters\`.\`id_book\`
         LIMIT ${firstItemIndex},${req.query.count_on_page}
     `);
-    const allCount = (await mysql.query(`SELECT COUNT(*) AS \`count\` FROM \`liked_books\` WHERE \`id_user\` = '${req.user.id}'`))[0][0].count;
+    const allCount = (await mysql.query(`
+        SELECT 
+            COUNT(*) AS \`count\` 
+        FROM 
+            \`participants_in_book\` INNER JOIN \`books\` ON \`books\`.\`id\` = \`participants_in_book\`.\`id_book\`
+            INNER JOIN \`chapters\` ON \`books\`.\`id\` = \`chapters\`.\`id_book\`
+        WHERE 
+            \`participants_in_book\`.\`id_user\` = '${req.user.id}' AND 
+            \`books\`.\`status\` <> 'created'
+        GROUP BY 
+            \`chapters\`.\`id_book\`
+    `))[0][0].count;
     mysql.close();
     let books = results[0];
+    const mysqlPoll = new MySQLPool();
     const resultGenres = await Promise.all(
         books.map(book => mysqlPoll.query(`
             SELECT 
@@ -51,6 +67,17 @@ export const getAllLikedBooks = async (req, res) => {
             const index = books.findIndex(i => i.id === rows[0].id_book);
             if (index > -1) {
                 books[index].genres = rows.map(p => p.title);
+            }
+        }
+    });
+    const resultParticipants = await Promise.all(
+        books.map(book => mysqlPoll.query(`SELECT * FROM \`participants_in_book\` WHERE \`id_book\` = '${book.id}';`))
+    );
+    resultParticipants.forEach(([rows]) => {
+        if (rows.length) {
+            const index = books.findIndex(i => i.id === rows[0].id_book);
+            if (index > -1) {
+                books[index].participants = rows.map(p => p.id_user);
             }
         }
     });
@@ -71,5 +98,6 @@ export const getAllLikedBooks = async (req, res) => {
         }
     });
     mysqlPoll.close();
-    res.send({ allCount, books });
+    books = _orderBy(books, i => moment(i.started_at).unix());
+    res.send({ allCount, books })
 };

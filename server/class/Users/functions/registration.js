@@ -45,7 +45,7 @@ export const registration = async (req, res) => {
             });
         }
         else {
-            await mysql.query(`DELETE \`users\` WHERE \`id\` = ${result[0].insertId};`);
+            await mysql.query(`DELETE FROM \`users\` WHERE \`id\` = ${result[0].insertId};`);
             mysql.close();
             return res.send({
                 result: false,

@@ -11,6 +11,7 @@ export const ROUTS = {
         registration: "/registration",
         activate: "/activate",
         getActiveBooks: "/get_active_books",
+        getAllUserBooks: "/get_all_user_books",
     },
     BOOKS: {
         index: "/books",
