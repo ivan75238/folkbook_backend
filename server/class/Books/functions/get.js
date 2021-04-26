@@ -70,6 +70,8 @@ export const get = async (req, res) => {
                     }
                 }
             });
+            book.likes = (await mysql.query(`SELECT \`id_user\` FROM \`liked_books\` WHERE \`id_book\` = ${req.query.id_book}`))[0];
+            book.likes = book.likes.map(i => i.id_user);
             mysql.close();
             mysqlPoll.close();
             res.send(book)

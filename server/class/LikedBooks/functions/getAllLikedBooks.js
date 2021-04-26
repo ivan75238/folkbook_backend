@@ -1,6 +1,6 @@
 import MySQL from "../../mysql";
 import {HTTPStatus} from "../../HTTPStatus";
-import {checkGetParams, checkParams} from "../../unitls";
+import {checkGetParams} from "../../unitls";
 import MySQLPool from "../../mysqlPool";
 
 export const getAllLikedBooks = async (req, res) => {
@@ -25,8 +25,8 @@ export const getAllLikedBooks = async (req, res) => {
             COUNT(*) AS \`chapter_count\`,
             max(\`chapters\`.\`id\`) AS \`last_chapter_id\`
         FROM 
-            \`books\` INNER JOIN \`chapters\` ON \`books\`.\`id\` = \`chapters\`.\`id_book\`
-            INNER JOIN \`liked_books\` ON \`books\`.\`id\` = \`liked_books\`.\`id_book\`
+            \`liked_books\` INNER JOIN \`books\` ON \`liked_books\`.\`id_book\` = \`books\`.\`id\`
+            INNER JOIN \`chapters\` ON \`chapters\`.\`id_book\` = \`books\`.\`id\`
         WHERE 
             \`liked_books\`.\`id_user\` = '${req.user.id}'
         GROUP BY 
