@@ -8,6 +8,7 @@ import {registration} from "../class/Users/functions/registration";
 import {activate} from "../class/Users/functions/activate";
 import {getAllUserBook} from "../class/Users/functions/getAllUserBook";
 import {loginVk} from "../class/Users/functions/loginVk";
+import {registrationVk} from "../class/Users/functions/registrationVk";
 
 var express = require('express');
 var router = express.Router();
@@ -19,6 +20,7 @@ router.get(ROUTS.USER.getAllUserBooks, authenticationMiddleware(), getAllUserBoo
 router.post(ROUTS.USER.login, passport.authenticate('local', {session: true}), login);
 router.post(ROUTS.USER.loginVk, passport.authenticate('local', {session: true}), loginVk);
 router.post(ROUTS.USER.registration, registration);
+router.post(ROUTS.USER.registrationVk, registrationVk);
 router.get(ROUTS.USER.activate, activate);
 router.post(ROUTS.USER.logout, authenticationMiddleware(), logout);
 

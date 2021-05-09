@@ -10,6 +10,7 @@ export const ROUTS = {
         loginVk: "/login_vk",
         logout: "/logout",
         registration: "/registration",
+        registrationVk: "/registration_vk",
         activate: "/activate",
         getActiveBooks: "/get_active_books",
         getAllUserBooks: "/get_all_user_books",
