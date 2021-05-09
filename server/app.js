@@ -57,16 +57,21 @@ passport.use(new LocalStrategy((username, password, done) => {
                 return done(null, false)
             }
 
-            bcrypt.compare(password, user.password, async (err, isValid) => {
-                if (err) {
-                    return done(err)
-                }
-                if (!isValid) {
-                    return done(null, false)
-                }
+            if (isNaN(username)) {
+                bcrypt.compare(password, user.password, async (err, isValid) => {
+                    if (err) {
+                        return done(err)
+                    }
+                    if (!isValid) {
+                        return done(null, false)
+                    }
 
+                    return done(null, user);
+                })
+            }
+            else {
                 return done(null, user);
-            })
+            }
         })
     }
 ));

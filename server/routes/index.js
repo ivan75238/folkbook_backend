@@ -7,6 +7,7 @@ export const ROUTS = {
         index: "/user",
         main: "/",
         login: "/login",
+        loginVk: "/login_vk",
         logout: "/logout",
         registration: "/registration",
         activate: "/activate",
