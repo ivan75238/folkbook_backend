@@ -36,13 +36,15 @@ export class MailSender {
             const mysql = new MySQL();
             const user = (await mysql.query(`SELECT * FROM \`users\` WHERE \`id\` = '${participant.id_user}';`))[0];
             mysql.close();
-            this.send({
-                toEmail: user[0].username,
-                ...emailObj
-            })
-                .catch(response => {
-                    console.log("response", response);
-                });
+            if (isNaN(user[0].username)) {
+                this.send({
+                    toEmail: user[0].username,
+                    ...emailObj
+                })
+                    .catch(response => {
+                        console.log("response", response);
+                    });
+            }
         });
     };
 }
